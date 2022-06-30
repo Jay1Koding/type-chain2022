@@ -148,3 +148,112 @@ function hello3(name: string | number) {
 ```
 
 ---
+
+## Call Signatures
+
+- 함수를 타입을 호출하는 방법
+
+```javascript
+type Add = (a: number, b: number) => number;
+
+const add: Add = (a, b) => a + b;
+```
+
+## overloading
+
+- 함수가 여러 개의 다른 call signatures를 가지고 있을 때 발생
+
+```javascript
+// Nextjs
+
+// Router.push("/home")
+
+// Router.push({
+//   path: '/home',
+//   state: 1,
+// });
+
+type Config = {
+  path: string,
+  state: object,
+};
+
+type Push = {
+  (path: string): void,
+  (config: Config): void,
+};
+
+const push: Push = (config) => {
+  if (typeof config === 'string') {
+    console.log(config);
+  } else {
+    console.log(config.path, config.state);
+  }
+};
+
+type Add = {
+  (a: number, b: number): number,
+  (a: number, b: number, c: number): number,
+};
+
+const add: Add = (a, b, c?: number) => {
+  if (c) return a + b + c;
+  return a + b;
+};
+```
+
+## polymorphism(다형성) / generics
+
+```javascript
+// type SuperPrint = {
+//     <TypePlaceHolder>(arr: TypePlaceHolder[]): TypePlaceHolder
+// }
+
+type SuperPrint = <T>(arr: T[]) => T;
+
+const superPrint: SuperPrint = (arr) => arr[-1];
+
+const a = superPrint([1, 2, 3, 4]);
+const b = superPrint([true, false, true, true]);
+const c = superPrint([true, false, true, true, 1, 2, 3, 'hello']);
+```
+
+```javascript
+function superPrint<T>(a: T[]) {
+  return a[a.length - 1];
+}
+
+const a = superPrint([1, 2, 3, 4]);
+// overwrite
+const b = superPrint < boolean > [true, false, true, true];
+const c = superPrint([true, false, true, true, 1, 2, 3, 'hello']);
+```
+
+```javascript
+type Player<E> = {
+    name: string
+    extraInfo: E
+
+}
+
+const nico: Player<{ favFood: string }> = {
+    name: 'nico',
+    extraInfo: {
+        favFood: 'kimchi'
+    }
+}
+
+const lynn: Player<null> ={
+    name:'lynn',
+    extraInfo:null
+}
+```
+
+```javascript
+type A = Array<number>;
+
+let a: A = [1, 2, 3, 4];
+
+// function printAllNumbers(arr:number[]){}
+function printAllNumbers(arr: Array<number>) {}
+```
