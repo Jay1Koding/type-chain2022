@@ -257,3 +257,318 @@ let a: A = [1, 2, 3, 4];
 // function printAllNumbers(arr:number[]){}
 function printAllNumbers(arr: Array<number>) {}
 ```
+
+---
+
+## Class
+
+```javascript
+abstract class User {
+  constructor(
+    private firstName: string,
+    private lastName: string,
+    protected nickName: string
+  ) { }
+  abstract getNickname(): void
+  getFullName() {
+    return `${this.firstName} ${this.lastName}`
+  }
+}
+
+class Player extends User {
+  getNickname() {
+    console.log(this.nickName)
+  }
+}
+
+const nico = new Player('nico', 'las', '니코')
+
+nico.getFullName()
+```
+
+```javascript
+// code challenge
+type Words = {
+  [key: string]: string;
+};
+
+class Dictionary {
+  private words: Words;
+  constructor() {
+    this.words = {};
+  }
+
+  add(word: Word) {
+    if (this.words[word.term] === undefined) {
+      this.words[word.term] = word.def;
+    }
+  }
+  def(term: string) {
+    return this.words[term];
+  }
+  delete(word: Word) {
+    delete this.words[word.term];
+  }
+  update(word: Word, def: string) {
+    if (this.words[word.term] !== def) {
+      this.words[word.term] = def;
+    }
+  }
+  changeTerm(word: Word, term: string) {
+    if (this.words[word.term] !== term) {
+      const result = (this.words[word.def] = term);
+      console.log(result);
+    }
+  }
+}
+
+class Word {
+  constructor(public term: string, public def: string) {}
+  print(word: Word) {
+    console.log(`${this.term} : ${this.def}`);
+  }
+}
+
+const kimchi = new Word('kimchi', '한국음식');
+const kimchi2 = new Word('kimchi2', '한국음식2');
+
+const dictionary = new Dictionary();
+
+console.log(dictionary.def('kimchi'));
+
+dictionary.add(kimchi);
+
+dictionary.add(kimchi2);
+
+dictionary.changeTerm(kimchi, '김치아니므니다');
+console.log(dictionary.def('kimchi'));
+
+```
+
+## Interface
+
+- Object의 shape을 결정하는 방법
+  1. type
+  2. interface
+- type이 interface에 비해 더 활용도가 높음
+
+```javascript
+type Team = 'red' | 'blue' | 'yello';
+type Health = 1 | 5 | 10;
+
+type Player = {
+  nickname: string,
+  team: Team,
+  healthbar: Health,
+};
+
+const nico: Player = {
+  nickname: 'nico',
+  team: 'blue',
+  healthbar: 5,
+};
+```
+
+```javascript
+// 둘다 같은 뜻임
+// interface User {
+//     name: string,
+
+// }
+
+// interface Player extends User {
+
+// }
+
+// const nico: Player = {
+//     name: 'niko'
+// }
+
+type User = {
+  name: string,
+};
+
+type Player = User & {};
+
+const nico: Player = {
+  name: 'niko',
+};
+```
+
+```javascript
+// 축적시킬 수 있음
+interface User {
+  name: string;
+}
+
+interface User {
+  lastName: string;
+}
+
+interface User {
+  health: number;
+}
+
+const nico: User = {
+  name: 'nico',
+  lastName: 'lalala',
+  health: 1345,
+};
+```
+
+- implements를 사용하면 js 코드가 가벼워짐
+  - private, protected 를 사용 못함
+- interface를 type으로 쓸 수 있음
+- interface를 return 할 수 있음
+
+```javascript
+// abstract class User{
+//     constructor(
+//         protected firstName : string,
+//         protected lastName : string,
+//     ){}
+//     abstract sayHi(name:string):string
+//     abstract fullName():string
+// }
+
+
+// class Player extends User{
+//     fullName(){
+//         return `${this.firstName} ${this.lastName}`
+//     }
+//     sayHi(name:string){
+//         return `Hello ${name}, My name is ${this.fullName()}`
+//     }
+// }
+
+interface User {
+    firstName: string,
+    lastName: string,
+
+    sayHi(name: string): string
+    fullName(): string
+}
+
+
+class Player implements User {
+    constructor(
+        public firstName: string,
+        public lastName: string,
+    ) { }
+    fullName() {
+        return `${this.firstName} ${this.lastName}`
+    }
+    sayHi(name: string) {
+        return `Hello ${name}, My name is ${this.fullName()}`
+    }
+}
+
+
+function makeUser(user: User): User {
+    return ({
+        firstName: 'nico',
+        lastName: 'las',
+        fullName: () => `hi`,
+        sayHi: (name) => 'xxx'
+    })
+}
+
+makeUser({
+    firstName: 'nico',
+    lastName: 'las',
+    fullName: () => `hi`,
+    sayHi: (name) => 'xxx'
+})
+
+```
+
+## Type vs Interface
+
+- 둘 다 object shape, type을 알려주는 용도
+- Type
+  - object의 모양을 설명
+  - type alias를 만드는 것
+  - type을 특정된 값으로 만드는 것
+  - property 를 추가하기 위해 다시 선언할 수 없음
+  - 상속하려면 다른 type을 만들어 object를 합쳐야함
+
+```javascript
+type PlayerA = {
+  name: string,
+};
+
+type PlayerAA = PlayerA & {
+  lastName: string,
+};
+
+const playerA: PlayerAA = {
+  name: 'nico',
+  lastName: 'las',
+};
+
+interface PlayerB {
+  name: string;
+}
+
+interface PlayerBB extends PlayerB {
+  lastName: string;
+}
+
+interface PlayerBB {
+  health: number;
+}
+
+const playerB: PlayerBB = {
+  name: 'nico',
+  lastName: 'las',
+  health: 14,
+};
+```
+
+- 둘다 추상화할 수 있음
+- class 나 object의 모양을 정의하고 싶으면 interface 나머지는 type
+
+```javascript
+type PlayerA = {
+    firstName: string
+}
+
+interface PlayerB {
+    firstName: string
+}
+
+class User implements PlayerA, PlayerB {
+    constructor(
+        public firstName:string
+    ){}
+}
+```
+
+[interface vs type](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#differences-between-type-aliases-and-interfaces)
+
+## Polymorphism
+
+```javascript
+interface SStorage<T> {
+    [key: string]: T
+}
+
+class LocalStorage<T> {
+    private storage: SStorage<T> = {}
+    set(key: string, value: T) {
+        this.storage[key] = value
+    }
+    remove(key: string) {
+        delete this.storage[key]
+    }
+    get(key: string): T {
+        return this.storage[key]
+    }
+    clear() {
+        this.storage = {}
+    }
+}
+
+const stringStorage = new LocalStorage<string>()
+const booleanStorage = new LocalStorage<boolean>()
+```
