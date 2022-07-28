@@ -3,13 +3,20 @@
   "version": "1.0.0",
   "description": "[typescript](https://typescript-kr.github.io/pages/basic-types.html)",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "start": "node build/index.js",
+    "dev": "nodemon --exec ts-node src/index.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/node": "^18.6.2",
+    "ts-node": "^10.9.1",
     "typescript": "^4.7.4"
   },
-  "main": "index.js"
+  "main": "index.js",
+  "dependencies": {
+    "nodemon": "^2.0.19"
+  }
 }

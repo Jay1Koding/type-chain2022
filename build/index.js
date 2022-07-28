@@ -1,2 +1,2 @@
-import { exit } from './myPackage.js';
-exit(1);
+"use strict";
+console.log('hi');

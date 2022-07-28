@@ -53,6 +53,7 @@ exit(1);
 ```
 
 - js 이용
+  - allowJs : true로 지정해줘야함
 
 ```javascript
 // myPackage.js
@@ -85,7 +86,78 @@ import { init, exit } from './myPackage.js';
 exit(1);
 ```
 
+## ts-node
+
+> npm i -D ts-node
+> npm i nodemon
+
+```json
+"scripts": {
+    "build": "tsc",
+    // npm run build && npm run start 비효율
+    "start": "node build/index.js",
+    // ts-node, nodemon COMBO
+    "dev": "nodemon --exec ts-node src/index.ts"
+},
+```
+
+## Block
+
+```json
+{
+  "include": ["src"],
+  "compilerOptions": {
+    "outDir": "build",
+    "target": "ES6",
+    "lib": ["ES6"],
+    "strict": true,
+    "esModuleInterop": true,
+    "module": "CommonJS"
+  }
+}
+```
+
+```javascript
+// index.ts
+// import * as crypto from 'crypto';
+
+// "esModuleInterop": true 로 해결할 수 있음
+import crypto from 'crypto';
+
+interface BlockShape {
+  hash: string;
+  prevHash: string;
+  height: number;
+  data: string;
+}
+
+class Block implements BlockShape {
+  public hash: string;
+  constructor(
+    public prevHash: string,
+    public height: number,
+    public data: string
+  ) {
+    this.hash = Block.calculateHash(prevHash, height, data);
+  }
+  static calculateHash(prevHash: string, height: number, data: string) {
+    const toHash = `${prevHash}${height}${data}`;
+    return toHash;
+  }
+}
+```
+
+## DefinitelyTyped
+
+[DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)
+
+- node 패키지의 모든 타입을 보고 싶을 경우
+  > npm i -D @types/node
+  > npm i -D @types/axon 같이 이름을 붙이면 됨
+
 ---
+
+# SO TYPESCRIPT???
 
 ## implicit types vs explicit types
 
