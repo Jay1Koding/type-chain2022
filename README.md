@@ -4,7 +4,8 @@
 
 ## USE TYPESCRIPT!!!!!!!!
 
-> npm init -y
+\*\*> npm init -y
+
 > npm i -D typescript // devDependencies 주입
 > touch src/ index.ts , tsconfig.json
 > npm run build
@@ -15,7 +16,8 @@
   "include": ["src"],
   "compilerOptions": {
     "outDir": "build",
-    "target": "ES6"
+    "target": "ES6",
+    "lib": ["ES6", "DOM"]
     // "moduleResolution": "node"
   }
 }
@@ -25,6 +27,8 @@
     "build": "tsc"
   },
 ```
+
+[lib](https://www.typescriptlang.org/tsconfig#lib)
 
 ---
 

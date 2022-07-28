@@ -1,7 +1,7 @@
 {
   "name": "type-chain2022",
   "version": "1.0.0",
-  "description": "",
+  "description": "[typescript](https://typescript-kr.github.io/pages/basic-types.html)",
   "scripts": {
     "build": "tsc"
   },
@@ -10,5 +10,6 @@
   "license": "ISC",
   "devDependencies": {
     "typescript": "^4.7.4"
-  }
+  },
+  "main": "index.js"
 }
