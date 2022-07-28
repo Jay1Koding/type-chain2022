@@ -17,7 +17,9 @@
   "compilerOptions": {
     "outDir": "build",
     "target": "ES6",
-    "lib": ["ES6", "DOM"]
+    "lib": ["ES6", "DOM"],
+    "strict": true,
+    "allowJs": true
     // "moduleResolution": "node"
   }
 }
@@ -29,6 +31,59 @@
 ```
 
 [lib](https://www.typescriptlang.org/tsconfig#lib)
+
+## JSDoc
+
+- .d.ts
+
+```javascript
+// myPackage.d.ts
+interface Config {
+  url: string;
+}
+
+declare module 'myPackage' {
+  function init(config: Config): boolean;
+  function exit(code: number): number;
+}
+
+// index.ts
+import { init, exit } from 'myPackage';
+exit(1);
+```
+
+- js 이용
+
+```javascript
+// myPackage.js
+// @ts-check
+
+// JSDoc
+/**
+ * Init Project
+ * @param {object} config
+ * @param {boolean} config.debug
+ * @param {string} config.url
+ * @returns boolean
+ */
+export function init(config) {
+  return true;
+}
+
+/**
+ * Exit program
+ * @param {number} code
+ * @returns number
+ */
+export function exit(code) {
+  return code + 1;
+}
+
+//index.ts
+import { init, exit } from './myPackage.js';
+
+exit(1);
+```
 
 ---
 

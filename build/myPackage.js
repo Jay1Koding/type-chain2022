@@ -1,5 +1,4 @@
 // @ts-check
-
 // JSDoc
 /**
  * Init Project
@@ -9,14 +8,13 @@
  * @returns boolean
  */
 export function init(config) {
-  return true;
+    return true;
 }
-
 /**
  * Exit program
  * @param {number} code
  * @returns number
  */
 export function exit(code) {
-  return code + 1;
+    return code + 1;
 }

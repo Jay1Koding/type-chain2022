@@ -1,7 +1,3 @@
-import { init, exit } from 'myPackage';
-
-init({
-  url: 'true',
-});
+import { init, exit } from './myPackage.js';
 
 exit(1);
